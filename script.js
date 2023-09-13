@@ -24,9 +24,6 @@ const textTyping = document.querySelector('#typing-text');
 const textToType =
   "As the ground trembles with the might of Earth nation, the flames of Fire nation dance with fury, and the waters of Water nation surge with power, the stage is set for an epic battle of the elements!";
 
-// Get the element where you want to display the typing effect
-// const textTyping = document.getElementById("inner-container");
-
 // Initialize a variable to keep track of the current character
 let charIndex = 0;
 
@@ -53,7 +50,7 @@ function typeText() {
 typeText();
 
 
-// global choices
+// Global choices
 const choices = ["Earth", "Fire", "Water"];
 
 function getComputerChoice() {
@@ -106,7 +103,7 @@ function checkWinner(playerChoice, computerChoice) {
 let playerScore = 0;
 let computerScore = 0;
 
-// game round
+// Game round
 function playGame(playerChoice, computerChoice) {
   const result = checkWinner(playerChoice, computerChoice);
   if (result == "Draw") {
