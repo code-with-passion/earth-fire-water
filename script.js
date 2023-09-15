@@ -1,24 +1,50 @@
-const container = document.querySelector(".outer-container");
+const outContainer = document.querySelector(".outer-container");
+const inContainer = document.querySelector(".inner-container");
+const uiContainer = document.querySelector(".ui-container");
+
+// const earth = document.createElement("img");
+// const fire = document.createElement("img");
+// const water = document.createElement("img");
+// earth.setAttribute("src", "./assets/earth-removebg-preview.png");
+// fire.setAttribute("src", "./assets/fire-removebg-preview.png");
+// water.setAttribute("src", "./assets/water-removebg-preview.png");
+
+const results = document.querySelector(".results");
+const versus = document.querySelector(".versus");
+const images = document.querySelector(".images");
+const playerElement = document.querySelector(".player-element")
+const computerElement = document.querySelector(".computer-element");
+
 const btnEarth = document.createElement("button");
-const btnFire = document.createElement("button");
-const btnWater = document.createElement("button");
-
-btnEarth.classList.add('btnEarth');
-btnEarth.classList.add('btnFire');
-btnEarth.classList.add('btnWater');
-
+btnEarth.setAttribute("id", "btnEarth");
+btnEarth.classList.add("btnElements");
 btnEarth.textContent = "EARTH";
+// image.appendChild(btnEarth);
+
+const btnFire = document.createElement("button");
+btnFire.setAttribute("id", "btnFire");
+btnFire.classList.add("btnElements");
 btnFire.textContent = "FIRE";
+
+const btnWater = document.createElement("button");
+btnWater.setAttribute("id", "btnWater");
+btnWater.classList.add("btnElements");
 btnWater.textContent = "WATER";
 
+// Continue Button & Event Listener to start playing music
+const btnStart = document.createElement("button");
+btnStart.classList.add('btnStart');
+btnStart.textContent = "Start Battle";
+
+// Battle title
+const title = document.createElement("h1");
+title.classList.add("title");
+title.textContent = "The Elemental Nations Showdown";
+
+const line = document.createElement("hr");
+line.classList.add("line");
+
 const textTyping = document.querySelector('#typing-text');
-
-
-
-// container.appendChild(btnEarth);
-// container.appendChild(btnFire);
-// container.appendChild(btnWater);
-
 
 // Define the text you want to type
 const textToType =
@@ -42,13 +68,69 @@ function typeText() {
     // Phrase is fully typed, now remove it
     setTimeout(() => {
       textTyping.textContent = "Who will dominate and emerge victorious?";
+      showContinueButton();
     }, 2000); // Adjust the delay before removal (in milliseconds)
   }
 }
 
-// Start the typing effect
-typeText();
+// Display continue button
+function showContinueButton() {
+  setTimeout(() => {
+    outContainer.appendChild(btnStart);
+  }, 2000);
+}
 
+// Start the typing effect after 3secs
+setTimeout(() => {
+  typeText();
+}, 3000);
+
+// Background music event listener
+const audio = document.getElementById('background-audio');
+// const playButton = document.getElementById('play-button');
+
+// Add a click event listener to the play button
+btnStart.addEventListener('click', function () {
+  showBattleUI();
+  // Check if the audio is paused
+  // if (audio.paused) {
+  //   // If paused, play the audio
+  //   audio.play();
+  //   btnStart.textContent = "Pause Music";
+  // } else {
+  //   // If playing, pause the audio
+  //   audio.pause();
+  //   btnStart.textContent = "Play Music";
+  // }
+});
+
+// Battle UI
+function showBattleUI() {
+  textTyping.textContent = "";
+  inContainer.appendChild(title);
+  title.appendChild(line);
+  btnStart.style.display = 'none';
+  
+  outContainer.appendChild(inContainer);
+  
+  uiContainer.appendChild(btnEarth);
+  uiContainer.appendChild(btnFire);
+  uiContainer.appendChild(btnWater);
+
+  
+  const newPositionLeft = 50; // New left position in pixels
+  const newPositionBottom = 50; // New bottom position in pixels
+  
+  // Update the button's CSS to change its position
+  uiContainer.style.position = "absolute";
+  uiContainer.style.center = `${newPositionLeft}px`;
+  uiContainer.style.bottom = `${newPositionBottom}px`;
+
+  // inContainer.appendChild(images);
+  // inContainer.appendChild(results);
+
+  getPlayerChoice();
+}
 
 // Global choices
 const choices = ["Earth", "Fire", "Water"];
@@ -65,22 +147,18 @@ function getPlayerChoice() {
       const playerChoice = button.textContent.toLowerCase();
       const computerChoice = getComputerChoice();
       const result = playGame(playerChoice, computerChoice);
-      console.log(result);
-
       // Check for a winner after each round
       if (playerScore === 5 || computerScore === 5) {
         if (playerScore === 5) {
-          div.textContent = "Congratulations! You won the battle of elements.";
-          container.appendChild(div);
+          results.textContent = "Congratulations! You won the battle of elements.";
         } else {
-          div.textContent = "Gameover! Better luck next time.";
-          container.appendChild(div);
+          results.textContent = "Gameover! Better luck next time.";
         }
-
         // Reset scores for a new game
         playerScore = 0;
         computerScore = 0;
       }
+      return result;
     })
   );
 }
@@ -107,21 +185,12 @@ let computerScore = 0;
 function playGame(playerChoice, computerChoice) {
   const result = checkWinner(playerChoice, computerChoice);
   if (result == "Draw") {
-    div.textContent = `It's a tie! Your score: ${playerScore}, Enemy score: ${computerScore}`;
-    container.appendChild(div);
+    results.textContent = `It's a tie! Your score: ${playerScore}, Enemy score: ${computerScore}`;
   } else if (result == "Player") {
     playerScore++;
-    div.textContent = `You win! ${playerChoice} beats ${computerChoice}. Your score: ${playerScore}, Enemy score: ${computerScore}`;
-    container.appendChild(div);
+    results.textContent = `You win! ${playerChoice} beats ${computerChoice}. Your score: ${playerScore}, Enemy score: ${computerScore}`;
   } else {
     computerScore++;
-    div.textContent = `You lost! ${computerChoice} beats ${playerChoice}. Enemy score: ${computerScore}, Your score: ${playerScore}`;
-    container.appendChild(div);
+    results.textContent = `You lost! ${computerChoice} beats ${playerChoice}. Enemy score: ${computerScore}, Your score: ${playerScore}`;
   }
 }
-
-function app() {
-  getPlayerChoice();
-}
-
-app();

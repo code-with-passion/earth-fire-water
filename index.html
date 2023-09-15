@@ -9,10 +9,26 @@
   <body>
     <video src="./assets/bg-video2.mp4" autoplay muted loop></video>
     <div class="outer-container">
-      <div class="inner-container">
-        <div id="typing-text" class="typing-text"></div>
-        <audio id="background-audio" src="./assets/bg-music.mp3" type="audio/mpeg" autoplay loop preload="auto"></audio>
+      <div id="typing-text" class="typing-text"></div>
+    </div>
+    <div class="inner-container">
+      <!-- <audio
+        id="background-audio"
+        src="./assets/bg-music.mp3"
+        type="audio/mpeg"
+        autoplay
+        loop
+        preload="auto"
+      ></audio> -->
+      <div class="images">
+        <div class="score">Score</div>
+        <div class="player-element">YOU</div>
+        <div class="versus"></div>
+        <div class="computer-element">ENEMY</div>
+        <div class="score">Score</div>
       </div>
+      <div id="results" class="results"></div>
+      <div class="ui-container"></div>
     </div>
     <script src="script.js"></script>
   </body>
