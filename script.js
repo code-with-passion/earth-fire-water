@@ -2,32 +2,24 @@ const outContainer = document.querySelector(".outer-container");
 const inContainer = document.querySelector(".inner-container");
 const uiContainer = document.querySelector(".ui-container");
 
-// const earth = document.createElement("img");
-// const fire = document.createElement("img");
-// const water = document.createElement("img");
-// earth.setAttribute("src", "./assets/earth-removebg-preview.png");
-// fire.setAttribute("src", "./assets/fire-removebg-preview.png");
-// water.setAttribute("src", "./assets/water-removebg-preview.png");
+const playerElementDiv = document.querySelector(".player-element");
+playerElementDiv.textContent = "PLAYER";
+const computerElementDiv = document.querySelector(".computer-element");
+computerElementDiv.textContent = "COMPUTER";
 
 const results = document.querySelector(".results");
 const versus = document.querySelector(".versus");
 const images = document.querySelector(".images");
-const playerElement = document.querySelector(".player-element")
-const computerElement = document.querySelector(".computer-element");
 
 const btnEarth = document.createElement("button");
-btnEarth.setAttribute("id", "btnEarth");
 btnEarth.classList.add("btnElements");
 btnEarth.textContent = "EARTH";
-// image.appendChild(btnEarth);
 
 const btnFire = document.createElement("button");
-btnFire.setAttribute("id", "btnFire");
 btnFire.classList.add("btnElements");
 btnFire.textContent = "FIRE";
 
 const btnWater = document.createElement("button");
-btnWater.setAttribute("id", "btnWater");
 btnWater.classList.add("btnElements");
 btnWater.textContent = "WATER";
 
@@ -93,15 +85,15 @@ const audio = document.getElementById('background-audio');
 btnStart.addEventListener('click', function () {
   showBattleUI();
   // Check if the audio is paused
-  // if (audio.paused) {
-  //   // If paused, play the audio
-  //   audio.play();
-  //   btnStart.textContent = "Pause Music";
-  // } else {
-  //   // If playing, pause the audio
-  //   audio.pause();
-  //   btnStart.textContent = "Play Music";
-  // }
+  if (audio.paused) {
+    // If paused, play the audio
+    audio.play();
+    btnStart.textContent = "Pause Music";
+  } else {
+    // If playing, pause the audio
+    audio.pause();
+    btnStart.textContent = "Play Music";
+  }
 });
 
 // Battle UI
@@ -118,59 +110,104 @@ function showBattleUI() {
   uiContainer.appendChild(btnWater);
 
   
-  const newPositionLeft = 50; // New left position in pixels
-  const newPositionBottom = 50; // New bottom position in pixels
+  const newPositionLeft = 50; 
+  const newPositionBottom = 50; 
   
   // Update the button's CSS to change its position
   uiContainer.style.position = "absolute";
   uiContainer.style.center = `${newPositionLeft}px`;
   uiContainer.style.bottom = `${newPositionBottom}px`;
 
-  // inContainer.appendChild(images);
-  // inContainer.appendChild(results);
-
   getPlayerChoice();
 }
+
+const playerImage = document.createElement("img");
+playerImage.setAttribute("id", "playerImage");
+
+const computerImage = document.createElement("img");
+computerImage.setAttribute("id", "computerImage");
+
+const elementImages = {
+  Earth: "./assets/earth-removebg-preview.png",
+  Fire: "./assets/fire-removebg-preview.png",
+  Water: "./assets/water-removebg-preview.png",
+};
+
+const uiPlayerScore = document.querySelector(".player-score");
+uiPlayerScore.textContent = "0";
+
+const uiComputerScore = document.querySelector(".computer-score");
+uiComputerScore.textContent = "0";
 
 // Global choices
 const choices = ["Earth", "Fire", "Water"];
 
 function getComputerChoice() {
   const choice = choices[Math.floor(Math.random() * choices.length)];
-  return choice.toLowerCase();
+
+  switch (choice) {
+    case 'Earth':
+      computerImage.src = elementImages.Earth;
+      computerElementDiv.appendChild(computerImage);
+      break;
+    case 'Fire':
+      computerImage.src = elementImages.Fire;
+      computerElementDiv.appendChild(computerImage);
+      break;
+    case 'Water':
+      computerImage.src = elementImages.Water;
+      computerElementDiv.appendChild(computerImage);
+      break;
+  }
+  return choice.toUpperCase();
 }
+
 
 function getPlayerChoice() {
-  const buttons = document.querySelectorAll("button");
-  buttons.forEach((button) =>
-    button.addEventListener("click", () => {
-      const playerChoice = button.textContent.toLowerCase();
-      const computerChoice = getComputerChoice();
-      const result = playGame(playerChoice, computerChoice);
-      // Check for a winner after each round
-      if (playerScore === 5 || computerScore === 5) {
-        if (playerScore === 5) {
-          results.textContent = "Congratulations! You won the battle of elements.";
-        } else {
-          results.textContent = "Gameover! Better luck next time.";
-        }
-        // Reset scores for a new game
-        playerScore = 0;
-        computerScore = 0;
-      }
-      return result;
-    })
-  );
+  
+  btnEarth.addEventListener('click', (e) => {
+    playerImage.src = elementImages.Earth;
+    playerElementDiv.appendChild(playerImage);
+    playRound(e);
+  });
+
+  btnFire.addEventListener('click', (e) => {
+    playerImage.src = elementImages.Fire;
+    playerElementDiv.appendChild(playerImage);
+    playRound(e);
+  });
+
+  btnWater.addEventListener('click', (e) => {
+    playerImage.src = elementImages.Water;
+    playerElementDiv.appendChild(playerImage);
+    playRound(e);
+  }); 
+
 }
 
-// check winner
+function playRound(e) {
+  const computerChoice = getComputerChoice();
+  const playerChoice = e.target.textContent;
+  const result = playGame(playerChoice, computerChoice);
+
+  if (playerScore === 5 || computerScore === 5) {
+    if (playerScore === 5) {
+      results.textContent = "Congratulations! You won the battle of elements.";
+    } else {
+      results.textContent = "Gameover! Better luck next time.";
+    }
+    clearBattleDisplay();
+  }
+}
+
+// Check winner
 function checkWinner(playerChoice, computerChoice) {
   if (playerChoice == computerChoice) {
     return "Draw";
   } else if (
-    (playerChoice == "fire" && computerChoice == "earth") ||
-    (playerChoice == "earth" && computerChoice == "water") ||
-    (playerChoice == "water" && computerChoice == "fire")
+    (playerChoice == "FIRE" && computerChoice == "EARTH") ||
+    (playerChoice == "EARTH" && computerChoice == "WATER") ||
+    (playerChoice == "WATER" && computerChoice == "FIRE")
   ) {
     return "Player";
   } else {
@@ -185,12 +222,23 @@ let computerScore = 0;
 function playGame(playerChoice, computerChoice) {
   const result = checkWinner(playerChoice, computerChoice);
   if (result == "Draw") {
-    results.textContent = `It's a tie! Your score: ${playerScore}, Enemy score: ${computerScore}`;
+    results.textContent = `It's a tie!`;
   } else if (result == "Player") {
     playerScore++;
-    results.textContent = `You win! ${playerChoice} beats ${computerChoice}. Your score: ${playerScore}, Enemy score: ${computerScore}`;
+    results.textContent = `You win! ${playerChoice} beats ${computerChoice}.`;
+    uiPlayerScore.textContent = playerScore;
   } else {
     computerScore++;
-    results.textContent = `You lost! ${computerChoice} beats ${playerChoice}. Enemy score: ${computerScore}, Your score: ${playerScore}`;
+    results.textContent = `You lost! ${computerChoice} beats ${playerChoice}.`;
+    uiComputerScore.textContent = computerScore;
   }
+}
+
+function clearBattleDisplay() {
+  playerElementDiv.removeChild(playerImage);
+  computerElementDiv.removeChild(computerImage);
+
+  // Reset scores for a new game
+  playerScore = 0;
+  computerScore = 0;
 }
