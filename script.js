@@ -25,7 +25,7 @@ btnWater.textContent = "WATER";
 
 // Continue Button & Event Listener to start playing music
 const btnStart = document.createElement("button");
-btnStart.classList.add('btnStart');
+btnStart.classList.add("btnStart");
 btnStart.textContent = "Start Battle";
 
 // Battle title
@@ -36,7 +36,7 @@ title.textContent = "The Elemental Nations Showdown";
 const line = document.createElement("hr");
 line.classList.add("line");
 
-const textTyping = document.querySelector('#typing-text');
+const textTyping = document.querySelector("#typing-text");
 
 // Define the text you want to type
 const textToType =
@@ -55,7 +55,7 @@ function typeText() {
     charIndex++;
 
     // Call this function again after a certain time interval (e.g., 100 milliseconds)
-    setTimeout(typeText, 60); 
+    setTimeout(typeText, 60);
   } else {
     // Phrase is fully typed, now remove it
     setTimeout(() => {
@@ -78,11 +78,11 @@ setTimeout(() => {
 }, 3000);
 
 // Background music event listener
-const audio = document.getElementById('background-audio');
+const audio = document.getElementById("background-audio");
 // const playButton = document.getElementById('play-button');
 
 // Add a click event listener to the play button
-btnStart.addEventListener('click', function () {
+btnStart.addEventListener("click", function () {
   showBattleUI();
   // Check if the audio is paused
   if (audio.paused) {
@@ -101,24 +101,43 @@ function showBattleUI() {
   textTyping.textContent = "";
   inContainer.appendChild(title);
   title.appendChild(line);
-  btnStart.style.display = 'none';
-  
+  btnStart.style.display = "none";
   outContainer.appendChild(inContainer);
-  
+  showButtons();
+  getPlayerChoice();
+}
+
+function showButtons() {
   uiContainer.appendChild(btnEarth);
   uiContainer.appendChild(btnFire);
   uiContainer.appendChild(btnWater);
 
-  
-  const newPositionLeft = 50; 
-  const newPositionBottom = 50; 
-  
+  const newPositionLeft = 50;
+  const newPositionBottom = 50;
+
   // Update the button's CSS to change its position
   uiContainer.style.position = "absolute";
   uiContainer.style.center = `${newPositionLeft}px`;
   uiContainer.style.bottom = `${newPositionBottom}px`;
+}
 
-  getPlayerChoice();
+function hideButtons() {
+  uiContainer.removeChild(btnEarth);
+  uiContainer.removeChild(btnFire);
+  uiContainer.removeChild(btnWater);
+}
+
+function newGameButton() {
+  const button = document.createElement("button");
+  button.classList.add("btnNewGame");
+  button.textContent = "NEW GAME";
+  uiContainer.appendChild(button);
+
+  button.addEventListener("click", () => {
+    uiContainer.removeChild(button);
+    clearBattleDisplay();
+    showButtons();
+  });
 }
 
 const playerImage = document.createElement("img");
@@ -146,15 +165,15 @@ function getComputerChoice() {
   const choice = choices[Math.floor(Math.random() * choices.length)];
 
   switch (choice) {
-    case 'Earth':
+    case "Earth":
       computerImage.src = elementImages.Earth;
       computerElementDiv.appendChild(computerImage);
       break;
-    case 'Fire':
+    case "Fire":
       computerImage.src = elementImages.Fire;
       computerElementDiv.appendChild(computerImage);
       break;
-    case 'Water':
+    case "Water":
       computerImage.src = elementImages.Water;
       computerElementDiv.appendChild(computerImage);
       break;
@@ -162,27 +181,24 @@ function getComputerChoice() {
   return choice.toUpperCase();
 }
 
-
 function getPlayerChoice() {
-  
-  btnEarth.addEventListener('click', (e) => {
+  btnEarth.addEventListener("click", (e) => {
     playerImage.src = elementImages.Earth;
     playerElementDiv.appendChild(playerImage);
     playRound(e);
   });
 
-  btnFire.addEventListener('click', (e) => {
+  btnFire.addEventListener("click", (e) => {
     playerImage.src = elementImages.Fire;
     playerElementDiv.appendChild(playerImage);
     playRound(e);
   });
 
-  btnWater.addEventListener('click', (e) => {
+  btnWater.addEventListener("click", (e) => {
     playerImage.src = elementImages.Water;
     playerElementDiv.appendChild(playerImage);
     playRound(e);
-  }); 
-
+  });
 }
 
 function playRound(e) {
@@ -194,9 +210,11 @@ function playRound(e) {
     if (playerScore === 5) {
       results.textContent = "Congratulations! You won the battle of elements.";
     } else {
-      results.textContent = "Gameover! Better luck next time.";
+      results.textContent = "Gameover! You lost.";
     }
-    clearBattleDisplay();
+    // clearBattleDisplay();
+    hideButtons();
+    newGameButton();
   }
 }
 
@@ -220,6 +238,7 @@ let computerScore = 0;
 
 // Game round
 function playGame(playerChoice, computerChoice) {
+
   const result = checkWinner(playerChoice, computerChoice);
   if (result == "Draw") {
     results.textContent = `It's a tie!`;
@@ -241,4 +260,8 @@ function clearBattleDisplay() {
   // Reset scores for a new game
   playerScore = 0;
   computerScore = 0;
+
+  results.textContent = "";
+  uiComputerScore.textContent = computerScore;
+  uiPlayerScore.textContent = playerScore;
 }
