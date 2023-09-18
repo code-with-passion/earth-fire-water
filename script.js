@@ -113,7 +113,7 @@ function showButtons() {
   uiContainer.appendChild(btnWater);
 
   const newPositionLeft = 50;
-  const newPositionBottom = 50;
+  const newPositionBottom = 70;
 
   // Update the button's CSS to change its position
   uiContainer.style.position = "absolute";
@@ -150,6 +150,12 @@ const elementImages = {
   Earth: "./assets/earth-removebg-preview.png",
   Fire: "./assets/fire-removebg-preview.png",
   Water: "./assets/water-removebg-preview.png",
+};
+
+// const award = document.createElement("img");
+const awardImages = {
+  Trophy: "./assets/trophy-removebg-preview.png",
+  Medal: "./assets/medal-removebg-preview.png",
 };
 
 const uiPlayerScore = document.querySelector(".player-score");
@@ -208,13 +214,26 @@ function playRound(e) {
 
   if (playerScore === 5 || computerScore === 5) {
     if (playerScore === 5) {
-      results.textContent = "Congratulations! You won the battle of elements.";
+      setTimeout(() => {
+        results.textContent =
+          "Congratulations! You won the battle of elements.";
+        playerImage.src = awardImages.Trophy;
+        computerImage.src = awardImages.Medal;
+        playerElementDiv.appendChild(playerImage);
+        computerElementDiv.appendChild(computerImage);
+        newGameButton();
+      }, 1500);
     } else {
-      results.textContent = "Gameover! You lost.";
+      setTimeout(() => {
+        results.textContent = "Gameover! You lost.";
+        playerImage.src = awardImages.Medal;
+        computerImage.src = awardImages.Trophy;
+        playerElementDiv.appendChild(playerImage);
+        computerElementDiv.appendChild(computerImage);
+        newGameButton();
+      }, 1500);
     }
-    // clearBattleDisplay();
     hideButtons();
-    newGameButton();
   }
 }
 
@@ -238,17 +257,29 @@ let computerScore = 0;
 
 // Game round
 function playGame(playerChoice, computerChoice) {
-
   const result = checkWinner(playerChoice, computerChoice);
   if (result == "Draw") {
     results.textContent = `It's a tie!`;
   } else if (result == "Player") {
     playerScore++;
-    results.textContent = `You win! ${playerChoice} beats ${computerChoice}.`;
+    if (playerChoice == "FIRE" && computerChoice == "EARTH") {
+      results.textContent = `You win! ${playerChoice} burns ${computerChoice}.`;
+    } else if (playerChoice == "EARTH" && computerChoice == "WATER") {
+      results.textContent = `You win! ${playerChoice} absorbs ${computerChoice}.`;
+    } else if (playerChoice == "WATER" && computerChoice == "FIRE") {
+      results.textContent = `You win! ${playerChoice} extinguishes ${computerChoice}.`;
+    }
+    // results.textContent = `You win! ${playerChoice} beats ${computerChoice}.`;
     uiPlayerScore.textContent = playerScore;
   } else {
     computerScore++;
-    results.textContent = `You lost! ${computerChoice} beats ${playerChoice}.`;
+    if (computerChoice == "FIRE" && playerChoice == "EARTH") {
+      results.textContent = `You lost! ${computerChoice} burns ${playerChoice}.`;
+    } else if (computerChoice == "EARTH" && playerChoice == "WATER") {
+      results.textContent = `You lost! ${computerChoice} absorbs ${playerChoice}.`;
+    } else if (computerChoice == "WATER" && playerChoice == "FIRE") {
+      results.textContent = `You lost! ${computerChoice} extinguishes ${playerChoice}.`;
+    }
     uiComputerScore.textContent = computerScore;
   }
 }

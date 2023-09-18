@@ -43,7 +43,6 @@ img {
     align-items: center;
     justify-content: center; 
     flex-direction: column;
-    /* width: 100vw; */
     height: 50vh;
     padding: 2rem;
     border-radius: 1rem;
@@ -58,7 +57,7 @@ img {
 
 .btnStart, .btnNewGame {
     padding: .6rem 1rem;
-    margin-top: 3rem;
+    margin-top: 2.5rem;
     font-size: 1rem;
     font-weight: 700;
     border-radius: 2rem;
@@ -94,8 +93,7 @@ img {
     background-color: #8f1919;
 }
 
-
-.btnStart:hover {
+.btnStart:hover, .btnNewGame:hover {
     background-color: #808082b6;
 }
 
@@ -154,11 +152,6 @@ img {
 }
 
 .player-score, .computer-score {
-    /* display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: flex-start;
-    text-align: center; */
     color: #fff;
     height: 70px;
     width: 60px;
