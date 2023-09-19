@@ -79,7 +79,6 @@ setTimeout(() => {
 
 // Background music event listener
 const audio = document.getElementById("background-audio");
-// const playButton = document.getElementById('play-button');
 
 // Add a click event listener to the play button
 btnStart.addEventListener("click", function () {
@@ -130,7 +129,7 @@ function hideButtons() {
 function newGameButton() {
   const button = document.createElement("button");
   button.classList.add("btnNewGame");
-  button.textContent = "NEW GAME";
+  button.textContent = "New Game";
   uiContainer.appendChild(button);
 
   button.addEventListener("click", () => {
@@ -152,7 +151,6 @@ const elementImages = {
   Water: "./assets/water-removebg-preview.png",
 };
 
-// const award = document.createElement("img");
 const awardImages = {
   Trophy: "./assets/trophy-removebg-preview.png",
   Medal: "./assets/medal-removebg-preview.png",
@@ -269,7 +267,7 @@ function playGame(playerChoice, computerChoice) {
     } else if (playerChoice == "WATER" && computerChoice == "FIRE") {
       results.textContent = `You win! ${playerChoice} extinguishes ${computerChoice}.`;
     }
-    // results.textContent = `You win! ${playerChoice} beats ${computerChoice}.`;
+    
     uiPlayerScore.textContent = playerScore;
   } else {
     computerScore++;

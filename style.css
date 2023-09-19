@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=IM+Fell+Great+Primer+SC&family=Roboto:ital,wght@0,400;1,300&family=Tangerine:wght@700&display=swap');
+
 html {
     box-sizing: border-box;
     overflow: hidden;
@@ -7,7 +9,7 @@ html {
 *:before,
 *:after {
     box-sizing: inherit;
-    font-family: MONOGRAMSTOOLBOX, Impact, 'Arial Narrow Bold', sans-serif;
+    font-family: "IM Fell Great Primer SC", Impact, sans-serif;
     margin: 0;
     padding: 0;
 }
@@ -51,14 +53,14 @@ img {
 
 .typing-text {
     line-height: 3rem;
-    font-size: 2rem;
+    font-size: 3rem;
     color: #fff;
 }
 
 .btnStart, .btnNewGame {
     padding: .6rem 1rem;
     margin-top: 2.5rem;
-    font-size: 1rem;
+    font-size: 1.2rem;
     font-weight: 700;
     border-radius: 2rem;
     cursor: pointer;
@@ -70,7 +72,7 @@ img {
     width: 6.25rem;
     margin: 0 .5rem;
     padding: .6rem;
-    font-size: .75rem;
+    font-size: 1rem;
     font-weight: 700;
     color: #fff;
     border-radius: 50%;
@@ -102,7 +104,8 @@ img {
     top: .7rem;
     left: 50%; /* This horizontally centers the title by positioning its left edge in the middle of the screen. */
     transform: translateX(-50%); /*This moves the title horizontally by half of its own width to center it perfectly. */
-    font-size: 2.5rem;
+    font-size: 4rem;
+    line-height: 3.5rem;
     font-weight: 900;
 }
 
@@ -116,7 +119,7 @@ img {
     border-radius: 1rem;
     background-color: #5d1a0e8b;
     margin: 1rem;
-    font-size: 1rem;
+    font-size: 1.6rem;
     color: #fff;
     display: flex;
     align-items: center;
@@ -153,10 +156,9 @@ img {
 
 .player-score, .computer-score {
     color: #fff;
-    height: 70px;
+    height: 80px;
     width: 60px;
-    padding: .5rem 0;
-    font-size: 2rem;
+    font-size: 3rem;
     font-weight: 900;
     border: 2px solid #fff;
     border-radius: .8rem;
